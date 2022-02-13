@@ -1,7 +1,7 @@
 {{ define "main" }}
   {{ if .Content }}
     <div class="index-content {{ if .Params.framed -}}framed{{- end -}}">
-      {{ .Content }}
+      {{- partial "content-with-wikilinks" . -}}
     </div>
   {{ end }}
   <div class="posts">
@@ -44,7 +44,7 @@
 
         <div class="post-content">
           {{ if .Params.showFullContent }}
-            {{ .Content }}
+            {{- partial "content-with-wikilinks" . -}}
           {{ else if .Description }}
             {{ .Description | markdownify }}
           {{ else }}
