@@ -1,0 +1,32 @@
+{{ define "main" }}
+  {{ if .Content }}
+    <div class="index-content">
+      {{- partial "content-with-wikilinks" . -}}
+    </div>  
+  {{ end }}
+  <div class="posts">
+    {{ range .Paginator.Pages }}
+      <div class="post on-list compact">
+        >> <a class="post-title compact-title" href="{{ .Permalink }}">{{ .Title | markdownify }}</a>
+        <div class="post-meta compact-meta">
+          <span class="post-date">
+            {{ .Date.Format "2006-01-02" }}
+          </span>
+          {{ with .Params.Author }}
+            <span class="post-author">:: {{ . }}</span>
+          {{ end }}
+          {{ if .Params.tags }}
+          <span class="post-tags compact-tags">
+            {{ range .Params.tags }}
+            #<a href="{{ (urlize (printf "tags/%s/" . )) | absLangURL }}">
+              {{- . -}}
+            </a>&nbsp;
+            {{ end }}
+          </span>
+        {{ end }}
+        </div>
+      </div>
+    {{ end }}
+    {{ partial "pagination.html" . }}
+  </div>
+{{ end }}
