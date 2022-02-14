@@ -42,8 +42,22 @@
       <div>
         {{- partial "content-with-wikilinks" . -}}
       </div>
+
     {{- end -}}
   </div>
+
+  {{ $backlinks := partial "funcs/backlinks.html" . }}
+  {{ if $backlinks }}
+  <hr/>
+  <div class="backlinks">
+    <h2>Backlinks</h2>
+    <ul>
+    {{ range $backlinks }}
+      <li><a href="{{ .permalink }}">{{ .title }}</a></li>
+    {{ end }}
+    </ul>
+  </div>
+  {{ end }}
 
   {{ if eq .Type $.Site.Params.contentTypeName }}
   {{ partial "posts_pagination.html" . }}

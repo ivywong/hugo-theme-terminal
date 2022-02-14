@@ -1,0 +1,21 @@
+{{ $filename := .File.BaseFileName }}
+{{ $wikiregexFile := printf "\\[\\[%s\\]\\]" $filename }}
+{{ $wikiregexWithTextFile := printf "\\[\\[%s\\|([^\\]\\|\\r\\n]+?)\\]\\]" $filename }}
+{{ $wikiregexWithTextFileContext := printf "\\[\\[%s\\|([^\\]\\|\\r\\n]+?)\\]\\]" $filename }}
+
+{{ $page := .Page }}
+{{ $pageContent := .Content }}
+
+{{- $.Scratch.Add "backlinks" slice -}}
+{{- range .Site.RegularPages -}}
+	{{ if (findRE $wikiregexFile .Content) }}
+		{{ $.Scratch.Add "backlinks" (dict "permalink" .Permalink "title" .Title) }}
+	{{ end }}
+	{{ if (findRE $wikiregexWithTextFile .Content) }}
+		{{ $.Scratch.Add "backlinks" (dict "permalink" .Permalink "title" .Title) }}
+	{{ end }}
+{{- end -}}
+
+{{- $backlinks := $.Scratch.Get "backlinks" -}}
+{{ return $backlinks }}
+
