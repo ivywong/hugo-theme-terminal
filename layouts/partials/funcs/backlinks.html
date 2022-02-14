@@ -10,8 +10,7 @@
 {{- range .Site.RegularPages -}}
 	{{ if (findRE $wikiregexFile .Content) }}
 		{{ $.Scratch.Add "backlinks" (dict "permalink" .Permalink "title" .Title) }}
-	{{ end }}
-	{{ if (findRE $wikiregexWithTextFile .Content) }}
+	{{ else if (findRE $wikiregexWithTextFile .Content) }}
 		{{ $.Scratch.Add "backlinks" (dict "permalink" .Permalink "title" .Title) }}
 	{{ end }}
 {{- end -}}
